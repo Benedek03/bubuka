@@ -1,7 +1,7 @@
 import fs from 'fs';
 
-const adjectives = (fs.readFileSync('./adjectives.txt', 'utf-8')).split('\n');
-const nouns = (fs.readFileSync('./nouns.txt', 'utf-8')).split('\n');
+const adjectives = (fs.readFileSync('./dirty_adjectives.txt', 'utf-8')).split('\n');
+const nouns = (fs.readFileSync('./dirty_nouns.txt', 'utf-8')).split('\n');
 
 function randInt(max: number): number {
     return Math.floor(Math.random() * max);

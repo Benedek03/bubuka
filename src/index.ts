@@ -11,8 +11,8 @@ client.once(Events.ClientReady, async c => {
     try {
         console.log(`Started refreshing application (/) commands.`);
         const data = await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENTID as string, process.env.GUILDID as string),
-            // Routes.applicationCommands(process.env.CLIENTID as string),
+            // Routes.applicationGuildCommands(process.env.CLIENTID as string, process.env.GUILDID as string),
+            Routes.applicationCommands(process.env.CLIENTID as string),
             { body: commandDataArray },
         );
         console.log(`Successfully reloaded application (/) commands.`);
