@@ -5,8 +5,15 @@ import generate from '../generate.js';
 export default {
 	data: new SlashCommandBuilder()
 		.setName('insult')
-		.setDescription('Replies with an insult!').toJSON(),
+		.setDescription('Replies with an insult!')
+		.addUserOption(o =>
+			o.setName('who')
+				.setDescription('your mom')
+				.setRequired(false)
+		).toJSON(),
 	async execute(interaction: CommandInteraction) {
-		await interaction.reply(generate());
+		let u = interaction.options.getUser('who');
+		let r = u ? `<@${u.id}>! ` : ""; 
+		await interaction.reply(r + generate());
 	},
 } as Command;
