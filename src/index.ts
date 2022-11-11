@@ -1,7 +1,7 @@
 import { Client, Events, GatewayIntentBits, REST, Routes } from "discord.js";
 import { commandDataArray, commandMap } from "./command.js";
 import { buttonMap } from "./button.js";
-import { config } from "dotenv"; config({path: '../.env'});
+import { config } from "dotenv"; config();
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
