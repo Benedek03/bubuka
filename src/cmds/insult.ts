@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, CommandInteraction } from 'discord.js';
+import { SlashCommandBuilder, CommandInteraction, ButtonBuilder, ActionRowBuilder } from 'discord.js';
+import insult from '../btns/insult.js';
 import { Command } from '../command.js';
 import generate from '../generate.js';
 
@@ -13,7 +14,8 @@ export default {
 		).toJSON(),
 	async execute(interaction: CommandInteraction) {
 		let u = interaction.options.getUser('who');
-		let r = u ? `<@${u.id}>! ` : ""; 
-		await interaction.reply(r + generate());
+		let m = u ? `<@${u.id}>! ` : "";
+		let r = new ActionRowBuilder<ButtonBuilder>().addComponents(insult.builder).toJSON();
+		await interaction.reply({content: m + generate(), components: [ r ]});
 	},
 } as Command;
