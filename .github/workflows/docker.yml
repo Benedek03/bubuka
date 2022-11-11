@@ -29,13 +29,13 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: benedek03/discord-music-bot:latest
+          tags: benedek03/bubuka:latest
       -
         name: Update repo description
         uses: peter-evans/dockerhub-description@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: benedek03/discord-music-bot
+          repository: benedek03/bubuka
