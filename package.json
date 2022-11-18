@@ -1,9 +1,10 @@
 {
-  "name": "bot",
+  "name": "bubuka",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf dist/; tsc -b; node .",
+    "dev": "nodemon src/index.ts",
+    "ts-strat": "ts-node src/index.ts",
     "build": "tsc -b",
     "start": "node ."
   },
