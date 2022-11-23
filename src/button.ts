@@ -10,7 +10,6 @@ export const buttonMap: Map<string, Button> = new Map<string, Button>();
 for (const f of [
     './btns/insult.js',
 ]) {
-    import(f).then(c => {
-        buttonMap.set(c.default.builder.data.custom_id, c.default);
-    })
+    let b = await import(f)
+    buttonMap.set(b.default.builder.data.custom_id, b.default);
 }

@@ -9,11 +9,10 @@ export const commandMap: Map<string, Command> = new Map<string, Command>();
 export const commandDataArray: DataType[] = [];
 
 for (const f of [
-    './cmds/ping.js',
-    './cmds/insult.js'
+    './cmds/insult.js',
+    './cmds/ping.js'
 ]) {
-    import(f).then(c => {
-        commandMap.set(c.default.data.name, c.default);
-        commandDataArray.push(c.default.data);
-    })
+    let c = await import(f);
+    commandMap.set(c.default.data.name, c.default);
+    commandDataArray.push(c.default.data);
 }
