@@ -9,17 +9,21 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm i
-      - run: npm run create-commands.md
-      - name: setup git config
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+
+      - name: create the file
+        run: |
+          npm i
+          npm run create-commands.md
+
+      - name: git stuff
         run: |
           git config user.name "GitHub Actions"
           git config user.email "<>"
-
-      - name: commit
-        run: |
           git add commands.md
           git commit -m "update commands.md"
-          git push origin master
+          git push origin main
