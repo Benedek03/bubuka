@@ -1,0 +1,24 @@
+name: update commands.md
+
+on:
+  push:
+    branches: 
+      - 'main'
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm run create-commands.md
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+
+      - name: commit
+        run: |
+          git add commands.md
+          git commit -m "update commands.md"
+          git push origin master
