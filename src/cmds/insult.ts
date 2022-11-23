@@ -6,14 +6,14 @@ import generate from '../generate.js';
 export default {
 	data: new SlashCommandBuilder()
 		.setName('insult')
-		.setDescription('Replies with an insult!')
+		.setDescription('Replies with an insult.')
 		.addUserOption(o =>
-			o.setName('who')
-				.setDescription('your mom')
+			o.setName('user')
+				.setDescription('Specify the user you want to send the insult to.')
 				.setRequired(false)
 		).toJSON(),
 	async execute(interaction: CommandInteraction) {
-		let u = interaction.options.getUser('who');
+		let u = interaction.options.getUser('user');
 		let m = u ? `<@${u.id}>! ` : "";
 		let r = new ActionRowBuilder<ButtonBuilder>().addComponents(insult.builder).toJSON();
 		await interaction.reply({content: m + generate(), components: [ r ]});
