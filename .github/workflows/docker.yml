@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'main'
+    paths-ignore:
+      - './commands.md'
 
 jobs:
   docker:
@@ -31,7 +33,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: benedek03/bubuka:latest
-          
+
       - name: Update repo description
         uses: peter-evans/dockerhub-description@v3
         with:
