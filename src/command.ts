@@ -10,6 +10,7 @@ export const commandDataArray: DataType[] = [];
 
 for (const f of [
     './cmds/insult.js',
+    './cmds/pfp.js',
     './cmds/ping.js'
 ]) {
     let c = await import(f);
