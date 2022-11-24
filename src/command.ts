@@ -9,7 +9,7 @@ export type Command = {
 export const commandMap: Map<string, Command> = new Map<string, Command>();
 export const commandDataArray: DataType[] = [];
 
-export let md = `<!--- this file was automaticly generated at ${Date.now()} --->\n# **Commands:**\n`;
+export let md = `<!--- this file was automaticly generated at ${Date.now()} --->\n# Commands:\n`;
 
 export const addCommandInteractionHandler = (client: Client) =>
     client.on(Events.InteractionCreate, async interaction => {
@@ -57,7 +57,7 @@ for (const fileName of fileNames) {
     commandMap.set(cmd.data.name, cmd);
     commandDataArray.push(cmd.data);
     cmd = cmd.data;
-    md += `## **${cmd.name}**\n`;
+    md += `## ${cmd.name}\n`;
     md += `### ${cmd.description}\n`;
     if (cmd.options && cmd.options.length > 0) {
         md += '### options:\n';
