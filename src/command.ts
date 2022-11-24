@@ -1,4 +1,4 @@
-import { Client, CommandInteraction, Events, RESTPostAPIChatInputApplicationCommandsJSONBody as DataType } from 'discord.js';
+import { Client, REST, Routes, CommandInteraction, Events, RESTPostAPIChatInputApplicationCommandsJSONBody as DataType } from 'discord.js';
 
 export type Command = {
     data: DataType;
@@ -28,6 +28,19 @@ export const addCommandInteractionHandler = (client: Client) =>
         }
     });
 
+export const deployCommands = async (token:string, applicationId: string, testGuildId: string | undefined) => {
+    const rest = new REST({ version: '10' }).setToken(token);
+    try {
+        console.log(`Started refreshing application (/) commands.`);
+        const data = await rest.put(
+            testGuildId ? Routes.applicationGuildCommands(applicationId, testGuildId) : Routes.applicationCommands(applicationId),
+            { body: commandDataArray },
+        );
+        console.log(`Successfully reloaded application (/) commands.`);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 for (const f of [
     './cmds/insult.js',
