@@ -3,11 +3,16 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc -b",
+    "start": "node .",
     "dev": "nodemon src/index.ts",
     "ts-start": "ts-node src/index.ts",
-    "build": "tsc -b",
-    "create-commands.md": "ts-node src/createCommandsMd.ts",
-    "start": "node ."
+    "create-commands.md": "ts-node src/scripts/createCommandsMd.ts",
+    "deploy-commands": "ts-node src/scripts/deployCommands.ts",
+    "delete-commands": "ts-node src/scripts/deleteCommands.ts",
+    "docker-build": "docker build . -t benedek03/bubuka",
+    "docker-start": "docker run -d --env-file .env --name bubuka benedek03/bubuka",
+    "docker-remove": "docker rm -f bubuka"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

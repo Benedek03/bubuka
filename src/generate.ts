@@ -3,11 +3,11 @@ import fs from 'fs';
 const adjectives = (fs.readFileSync('./dirty_adjectives.txt', 'utf-8')).split('\n');
 const nouns = (fs.readFileSync('./dirty_nouns.txt', 'utf-8')).split('\n');
 
-function randInt(max: number): number {
+const randInt = (max: number): number => {
     return Math.floor(Math.random() * max);
 }
 
-export default function generate(): string {
+const generate = (): string => {
     let generated = "Te ";
     let numOfAdjectives = randInt(3) + 1;
     for (let i = 0; i < numOfAdjectives; i++) {
@@ -17,3 +17,4 @@ export default function generate(): string {
     generated += nouns[randInt(nouns.length)].toLowerCase() + "!"
     return generated;
 }
+export default generate;
