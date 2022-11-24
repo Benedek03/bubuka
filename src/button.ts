@@ -1,4 +1,5 @@
 import { ButtonBuilder, ButtonInteraction, Client, Events } from "discord.js"
+import { readdirSync } from "fs";
 
 export type Button = {
     builder: ButtonBuilder;
@@ -25,9 +26,16 @@ export const addButtonInteractionHandler = (client: Client) =>
         }
     });
 
-for (const f of [
-    './btns/insult.js',
-]) {
-    let b = await import(f)
-    buttonMap.set(b.default.builder.data.custom_id, b.default);
+let fileNames;
+// this if statement is so it works both after:
+//      npm run ts-node
+//      npm run build && npm run start
+if (import.meta.url.endsWith('.js'))
+    fileNames = readdirSync('./dist/btns').filter(file => file.endsWith('.js'));
+else
+    fileNames = readdirSync('./src/btns').filter(file => file.endsWith('.ts')).map(file => file.replace('.ts', '.js'));
+
+for (const fileName of fileNames) {
+    let btn = (await import(`./btns/${fileName}`)).default;
+    buttonMap.set(btn.builder.data.custom_id, btn);
 }

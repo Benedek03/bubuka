@@ -1,4 +1,5 @@
 import { Client, REST, Routes, CommandInteraction, Events, RESTPostAPIChatInputApplicationCommandsJSONBody as DataType } from 'discord.js';
+import { readdirSync } from 'fs';
 
 export type Command = {
     data: DataType;
@@ -28,7 +29,7 @@ export const addCommandInteractionHandler = (client: Client) =>
         }
     });
 
-export const deployCommands = async (token:string, applicationId: string, testGuildId: string | undefined) => {
+export const deployCommands = async (token: string, applicationId: string, testGuildId: string | undefined) => {
     const rest = new REST({ version: '10' }).setToken(token);
     try {
         console.log(`Started refreshing application (/) commands.`);
@@ -42,21 +43,26 @@ export const deployCommands = async (token:string, applicationId: string, testGu
     }
 }
 
-for (const f of [
-    './cmds/insult.js',
-    './cmds/pfp.js',
-    './cmds/ping.js'
-]) {
-    let c = await import(f);
-    commandMap.set(c.default.data.name, c.default);
-    commandDataArray.push(c.default.data);
-    c = c.default.data;
-    md += `## **${c.name}**\n`;
-    md += `### ${c.description}\n`;
-    if (c.options && c.options.length > 0) {
+let fileNames;
+// this if statement is so it works both after:
+//      npm run ts-node
+//      npm run build && npm run start
+if (import.meta.url.endsWith('.js'))
+    fileNames = readdirSync('./dist/cmds').filter(file => file.endsWith('.js'));
+else
+    fileNames = readdirSync('./src/cmds').filter(file => file.endsWith('.ts')).map(file => file.replace('.ts', '.js'));
+
+for (const fileName of fileNames) {
+    let cmd = (await import(`./cmds/${fileName}`)).default;
+    commandMap.set(cmd.data.name, cmd);
+    commandDataArray.push(cmd.data);
+    cmd = cmd.data;
+    md += `## **${cmd.name}**\n`;
+    md += `### ${cmd.description}\n`;
+    if (cmd.options && cmd.options.length > 0) {
         md += '### options:\n';
-        for (let j = 0; j < c.options.length; j++) {
-            const o = c.options[j];
+        for (let j = 0; j < cmd.options.length; j++) {
+            const o = cmd.options[j];
             if (o.required == false)
                 md += `- *${o.name}*: ${o.description}\n`;
             else
