@@ -11,15 +11,15 @@ jobs:
   commands.md:
     runs-on: ubuntu-latest
     steps:
-      - main: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      - main: Set up node
+      - name: Set up node
         uses: actions/setup-node@v3
-      - main: Create commmands.md
+      - name: Create commmands.md
         run: |
           npm i
           npm run create-commands.md
-      - main: Git config 
+      - name: Git config 
         run: |
           git config user.name "GitHub Actions"
           git config user.email "<>"
