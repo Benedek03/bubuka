@@ -29,13 +29,13 @@ export const addCommandInteractionHandler = (client: Client) =>
         }
     });
 
-export const deployCommands = async (token: string, applicationId: string, testGuildId: string | undefined) => {
+export const deployCommands = async (token: string, applicationId: string, testGuildId: string | undefined, array = commandDataArray) => {
     const rest = new REST({ version: '10' }).setToken(token);
     try {
         console.log(`Started refreshing application (/) commands.`);
         const data = await rest.put(
             testGuildId ? Routes.applicationGuildCommands(applicationId, testGuildId) : Routes.applicationCommands(applicationId),
-            { body: commandDataArray },
+            { body: array },
         );
         console.log(`Successfully reloaded application (/) commands.`);
     } catch (error) {

@@ -6,7 +6,9 @@
     "dev": "nodemon src/index.ts",
     "ts-start": "ts-node src/index.ts",
     "build": "tsc -b",
-    "create-commands.md": "ts-node src/createCommandsMd.ts",
+    "create-commands.md": "ts-node src/scripts/createCommandsMd.ts",
+    "deploy-commands": "ts-node src/scripts/deployCommands.ts",
+    "delete-commands": "ts-node src/scripts/deleteCommands.ts",
     "start": "node ."
   },
   "devDependencies": {
