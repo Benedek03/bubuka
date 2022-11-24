@@ -8,7 +8,7 @@ on:
       - './commands.md'
 
 jobs:
-  commands.md:
+  commands-md:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
