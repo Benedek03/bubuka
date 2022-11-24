@@ -1,13 +1,13 @@
 # bubuka
-Bubuka is a discord bot i create for fun.
+Bubuka is a discord bot i create for fun. [Here is the list of commands.](https://github.com/Benedek03/bubuka/blob/main/commands.md)
 
 # Development
 I develop this bot alone so these are notes for myself.<br>
 A few things to keep in mind:
-- only commit to the develop branch and merge on github
+- only commit to the develop branch because you'll forget to git pull before and cause a lot of pain and suffering for yourself 
 - merge develop into main on github
 - the github action will:<br>
-    create commands.md,<br>
+    create commands.md and push it to main,<br>
     build and push a new docker image tho DockerHub
 ## Setup 
 ```
