@@ -2,7 +2,8 @@ import { writeFileSync } from "fs";
 import { commandDataArray } from "./command.js";
 
 
-let text = "# **Commands:**\n";
+let text = `<!--- this file was automaticly generated at ${Date.now()} --->\n`;
+text += "# **Commands:**\n";
 for (let i = 0; i < commandDataArray.length; i++) {
     const c = commandDataArray[i];
     text += `## **${c.name}**\n`;
