@@ -1,4 +1,4 @@
-import { ButtonBuilder, ButtonInteraction } from "discord.js"
+import { ButtonBuilder, ButtonInteraction, Client, Events } from "discord.js"
 
 export type Button = {
     builder: ButtonBuilder;
@@ -6,6 +6,24 @@ export type Button = {
 }
 
 export const buttonMap: Map<string, Button> = new Map<string, Button>();
+
+export const addButtonInteractionHandler = (client: Client) =>
+    client.on(Events.InteractionCreate, async interaction => {
+        if (!interaction.isButton()) return;
+
+        const command = buttonMap.get(interaction.customId);
+        if (!command) {
+            console.error(`No button matching ${interaction.customId} was found.`);
+            return;
+        }
+
+        try {
+            await command.execute(interaction);
+        } catch (error) {
+            console.error(error);
+            await interaction.reply({ content: 'There was an error while executing this button!', ephemeral: true });
+        }
+    });
 
 for (const f of [
     './btns/insult.js',
