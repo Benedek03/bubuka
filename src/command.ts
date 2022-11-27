@@ -1,4 +1,4 @@
-import { Client, REST, Routes, CommandInteraction, Events, RESTPostAPIChatInputApplicationCommandsJSONBody as DataType } from 'discord.js';
+import { REST, Routes, CommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody as DataType, Interaction, CacheType } from 'discord.js';
 import { readdirSync } from 'fs';
 
 export type Command = {
@@ -9,25 +9,22 @@ export type Command = {
 export const commandMap: Map<string, Command> = new Map<string, Command>();
 export const commandDataArray: DataType[] = [];
 
-export let md = `<!--- this file was automaticly generated at ${Date.now()} --->\n# Commands:\n`;
+export const commandListener = async (interaction: Interaction<CacheType>) => {
+    if (!interaction.isChatInputCommand()) return;
 
-export const addCommandInteractionHandler = (client: Client) =>
-    client.on(Events.InteractionCreate, async interaction => {
-        if (!interaction.isChatInputCommand()) return;
+    const command = commandMap.get(interaction.commandName);
+    if (!command) {
+        console.error(`No command matching ${interaction.commandName} was found.`);
+        return;
+    }
 
-        const command = commandMap.get(interaction.commandName);
-        if (!command) {
-            console.error(`No command matching ${interaction.commandName} was found.`);
-            return;
-        }
-
-        try {
-            await command.execute(interaction);
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-        }
-    });
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+};
 
 export const deployCommands = async (token: string, applicationId: string, testGuildId: string | undefined, array = commandDataArray) => {
     const rest = new REST({ version: '10' }).setToken(token);
@@ -56,17 +53,4 @@ for (const fileName of fileNames) {
     let cmd = (await import(`./cmds/${fileName}`)).default;
     commandMap.set(cmd.data.name, cmd);
     commandDataArray.push(cmd.data);
-    cmd = cmd.data;
-    md += `## ${cmd.name}\n`;
-    md += `### ${cmd.description}\n`;
-    if (cmd.options && cmd.options.length > 0) {
-        md += '### options:\n';
-        for (let j = 0; j < cmd.options.length; j++) {
-            const o = cmd.options[j];
-            if (o.required == false)
-                md += `- *${o.name}*: ${o.description}\n`;
-            else
-                md += `- ${o.name}: ${o.description}\n`;
-        }
-    }
 }

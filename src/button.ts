@@ -1,4 +1,4 @@
-import { ButtonBuilder, ButtonInteraction, Client, Events } from "discord.js"
+import { ButtonBuilder, ButtonInteraction, CacheType, Interaction } from "discord.js"
 import { readdirSync } from "fs";
 
 export type Button = {
@@ -8,23 +8,22 @@ export type Button = {
 
 export const buttonMap: Map<string, Button> = new Map<string, Button>();
 
-export const addButtonInteractionHandler = (client: Client) =>
-    client.on(Events.InteractionCreate, async interaction => {
-        if (!interaction.isButton()) return;
+export const buttonListener = async (interaction: Interaction<CacheType>) => {
+    if (!interaction.isButton()) return;
 
-        const command = buttonMap.get(interaction.customId);
-        if (!command) {
-            console.error(`No button matching ${interaction.customId} was found.`);
-            return;
-        }
+    const command = buttonMap.get(interaction.customId);
+    if (!command) {
+        console.error(`No button matching ${interaction.customId} was found.`);
+        return;
+    }
 
-        try {
-            await command.execute(interaction);
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this button!', ephemeral: true });
-        }
-    });
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'There was an error while executing this button!', ephemeral: true });
+    }
+};
 
 let fileNames;
 // this if statement is so it works both after:
